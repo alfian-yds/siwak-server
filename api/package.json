@@ -1,0 +1,46 @@
+{
+  "name": "@siwak/api",
+  "private": true,
+  "version": "2.0.0",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file-if-exists=../.env src/index.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node --env-file-if-exists=../.env dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node --env-file-if-exists=../.env dist/db/migrate.js",
+    "db:migrate:dev": "tsx --env-file-if-exists=../.env src/db/migrate.ts",
+    "load-test": "node --env-file-if-exists=../.env dist/tools/load-test.js",
+    "load-test:dev": "tsx --env-file-if-exists=../.env src/tools/load-test.ts"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^11.1.5",
+    "@fastify/formbody": "^8.0.2",
+    "@fastify/helmet": "^13.2.0",
+    "@fastify/multipart": "^10.1.9",
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/static": "^10.1.11",
+    "@jimp/core": "^1.6.1",
+    "@jsquash/webp": "^1.5.0",
+    "drizzle-orm": "^0.45.4",
+    "fastify": "^5.12.8",
+    "file-type": "^22.3.0",
+    "jimp": "^1.6.1",
+    "marked": "^18.2.0",
+    "music-metadata": "^12.5.0",
+    "mysql2": "^3.24.6",
+    "openid-client": "^6.9.0",
+    "wasm-feature-detect": "^1.10.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "drizzle-kit": "^0.31.11",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}

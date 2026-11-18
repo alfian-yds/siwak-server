@@ -1,0 +1,1 @@
+ALTER TABLE `content_items` MODIFY COLUMN `type` enum('hadith','info_kas','info_jumat','info_agenda','info_hari_besar','image','info_teks') NOT NULL;

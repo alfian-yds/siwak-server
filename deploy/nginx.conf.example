@@ -1,0 +1,25 @@
+# Salin ke /etc/nginx/sites-available/siwak, aktifkan, lalu jalankan:
+#   sudo certbot --nginx -d siwak.alfianys.id
+# certbot akan menambahkan blok HTTPS dan pengalihan HTTP -> HTTPS secara otomatis.
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name siwak.alfianys.id;
+
+    # Unggahan terbesar: audio 10 MB (TRD §9)
+    client_max_body_size 12m;
+
+    # HSTS (TRD §14). Peramban mengabaikannya di HTTP; berlaku setelah certbot memasang HTTPS.
+    add_header Strict-Transport-Security "max-age=31536000" always;
+
+    location / {
+        proxy_pass http://127.0.0.1:8090;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+    }
+}

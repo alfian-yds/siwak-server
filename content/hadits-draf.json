@@ -1,0 +1,89 @@
+{
+  "_keterangan": "Draf awal pustaka pusat (tugas 2.3). Terjemah ringkas, BELUM diverifikasi. Semua entri masuk sebagai draf dan baru tayang setelah super admin memeriksa teks Arab, terjemah, sumber, dan derajat lalu menyetujuinya. Teks Arab sengaja dikosongkan bila belum ada sumber yang diperiksa.",
+  "hadits": [
+    {
+      "category": "adab_masjid",
+      "arabicText": null,
+      "translation": "Apabila salah seorang di antara kalian masuk masjid, janganlah ia duduk sebelum shalat dua rakaat.",
+      "sourceRef": "HR. Bukhari & Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "adab_masjid",
+      "arabicText": null,
+      "translation": "Apabila salah seorang di antara kalian masuk masjid, ucapkanlah: Allahummaftah lī abwāba raḥmatik (Ya Allah, bukakanlah untukku pintu-pintu rahmat-Mu).",
+      "sourceRef": "HR. Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "shaf_berjamaah",
+      "arabicText": "سَوُّوا صُفُوفَكُمْ فَإِنَّ تَسْوِيَةَ الصُّفُوفِ مِنْ إِقَامَةِ الصَّلاَةِ",
+      "translation": "Luruskanlah shaf kalian, karena lurusnya shaf termasuk bagian dari menegakkan shalat.",
+      "sourceRef": "HR. Bukhari & Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "shaf_berjamaah",
+      "arabicText": null,
+      "translation": "Shalat berjamaah lebih utama dua puluh tujuh derajat daripada shalat sendirian.",
+      "sourceRef": "HR. Bukhari & Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "keutamaan",
+      "arabicText": null,
+      "translation": "Barang siapa bersuci di rumahnya lalu berjalan ke salah satu rumah Allah untuk menunaikan kewajiban, satu langkahnya menghapus satu kesalahan dan langkah lainnya mengangkat satu derajat.",
+      "sourceRef": "HR. Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "keutamaan",
+      "arabicText": null,
+      "translation": "Seseorang di antara kalian terus dihitung dalam keadaan shalat selama ia tertahan karena menunggu shalat.",
+      "sourceRef": "HR. Bukhari & Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "keutamaan",
+      "arabicText": null,
+      "translation": "Di antara tujuh golongan yang dinaungi Allah pada hari tiada naungan selain naungan-Nya: seseorang yang hatinya terpaut dengan masjid.",
+      "sourceRef": "HR. Bukhari & Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "keutamaan",
+      "arabicText": null,
+      "translation": "Barang siapa membangun masjid karena mengharap wajah Allah, Allah membangunkan untuknya yang semisal di surga.",
+      "sourceRef": "HR. Bukhari & Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "kebersihan",
+      "arabicText": null,
+      "translation": "Barang siapa makan bawang putih atau bawang merah, hendaklah ia menjauhi masjid kami.",
+      "sourceRef": "HR. Bukhari & Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "larangan_masjid",
+      "arabicText": null,
+      "translation": "Barang siapa mendengar seseorang mengumumkan barang hilang di masjid, hendaklah ia berkata: semoga Allah tidak mengembalikannya kepadamu, karena masjid tidak dibangun untuk ini.",
+      "sourceRef": "HR. Muslim",
+      "gradeNote": null
+    },
+    {
+      "category": "larangan_masjid",
+      "arabicText": null,
+      "translation": "Apabila kalian melihat orang menjual atau membeli di masjid, katakanlah: semoga Allah tidak memberi keuntungan pada perdaganganmu.",
+      "sourceRef": "HR. Tirmidzi",
+      "gradeNote": null
+    },
+    {
+      "category": "jumat",
+      "arabicText": null,
+      "translation": "Apabila engkau berkata kepada temanmu \"diamlah\" pada hari Jumat saat imam berkhutbah, sungguh engkau telah berbuat sia-sia.",
+      "sourceRef": "HR. Bukhari & Muslim",
+      "gradeNote": null
+    }
+  ]
+}
