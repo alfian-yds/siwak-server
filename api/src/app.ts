@@ -23,6 +23,7 @@ import { adminSettingsRoutes } from "./routes/admin-settings.js";
 import { adminSlideRoutes } from "./routes/admin-slides.js";
 import { adminUserRoutes } from "./routes/admin-users.js";
 import { deviceApiRoutes } from "./routes/device-api.js";
+import { publicDemoRoutes } from "./routes/public-demo.js";
 import { siteRoutes } from "./site.js";
 import { type WeatherService, createWeatherService } from "./services/weather.js";
 
@@ -61,6 +62,8 @@ export async function buildApp({ config, db, identity, adminWebDir, weather }: A
         fontSrc: ["'self'"],
         connectSrc: ["'self'"],
         objectSrc: ["'none'"],
+        // Demo layar TV (halaman sendiri) dan video promosi; YouTube baru dimuat setelah tombol putar ditekan.
+        frameSrc: ["'self'", "https://www.youtube-nocookie.com"],
         frameAncestors: ["'none'"],
         formAction: ["'self'", "https://accounts.google.com"],
         upgradeInsecureRequests: config.SIWAK_PUBLIC_URL.startsWith("https://") ? [] : null,
@@ -106,6 +109,7 @@ export async function buildApp({ config, db, identity, adminWebDir, weather }: A
     await adminAnnouncementRoutes(app, { db });
     await adminMonitorRoutes(app, { db });
     await adminOverviewRoutes(app, { db });
+    await publicDemoRoutes(app, { db });
     await deviceApiRoutes(app, { db, config, weather: weather ?? createWeatherService(db, config.OPENWEATHER_API_KEY, app.log) });
     await adminWebRoutes(app, adminWebDir);
   }

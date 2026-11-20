@@ -29,21 +29,27 @@ a{color:var(--kuningan)}header{background:var(--head);color:var(--head-text);bor
 .hero h1{font-size:clamp(1.9rem,4.6vw,2.9rem);line-height:1.15;margin:0 0 14px}
 .hero-text>p{color:var(--text-2);font-size:1.08rem;max-width:560px;margin:0}
 .btn-ghost{background:transparent;border-color:transparent;color:var(--kuningan)}
+.tv-demo{margin:0}
 .tv{background:#111;border-radius:18px;padding:10px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
-.tv-screen{aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:linear-gradient(160deg,#0d3b2b,#06150f);color:#fff;display:grid;grid-template-rows:1fr auto auto;container-type:size;font-family:Roboto,system-ui,sans-serif}
-.tv-top{display:grid;grid-template-columns:1.25fr 1fr;gap:2.5cqh;padding:3cqh;min-height:0}
-.tv-slide,.tv-clock{border-radius:2cqh;padding:3cqh;display:grid;align-content:center;gap:1cqh;min-height:0}
-.tv-slide{background:linear-gradient(135deg,#1f5e8a,#163a5c)}
-.tv-slide small,.tv-clock small{font-size:3.4cqh;letter-spacing:.08em;color:#F4D99A;font-weight:700}
-.tv-slide strong{font-size:7cqh;line-height:1.1}.tv-slide span{font-size:4cqh;opacity:.85}
-.tv-clock{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);text-align:center}
-.tv-clock strong{font-size:17cqh;line-height:1;color:#FFD54F;font-variant-numeric:tabular-nums}
-.tv-clock span{font-size:4cqh;color:#9ccc65}.tv-clock em{font-style:normal;font-size:3.6cqh;opacity:.85}
-.tv-row{display:grid;grid-template-columns:repeat(6,1fr);gap:1.5cqh;padding:0 3cqh 2.5cqh}
-.tv-p{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:1.6cqh;text-align:center;padding:1.6cqh 0}
-.tv-p b{display:block;font-size:4cqh}.tv-p span{font-size:6.6cqh;font-weight:700;color:#FFD54F;font-variant-numeric:tabular-nums}
-.tv-p.next{border-color:#FFD54F;background:rgba(255,213,79,.14)}
-.tv-ticker{background:#0C5138;font-size:3.8cqh;padding:1.6cqh 3cqh;white-space:nowrap;overflow:hidden}
+.tv iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:10px;background:#0b0f0d}
+.tv-demo figcaption{margin-top:10px;color:var(--text-2);font-size:.9rem;text-align:center}
+.video-block{display:grid;gap:16px;align-items:center}
+@media (min-width:900px){.video-block{grid-template-columns:.8fr 1.2fr;gap:32px}}
+.video-text p{color:var(--text-2);margin:0}
+.video-play{position:relative;display:block;width:100%;aspect-ratio:16/9;padding:0;border:0;border-radius:14px;overflow:hidden;cursor:pointer;background:#000}
+.video-play{background:radial-gradient(120% 90% at 50% 0%,#FBF7EC,#EDE6D3)}
+.video-poster{position:absolute;inset:0;display:grid;place-items:center;align-content:start;padding-top:7%}
+.video-poster img{width:19%;max-width:140px;height:auto}
+.video-poster b{position:absolute;bottom:9%;left:0;right:0;text-align:center;color:#0C5138;font-size:clamp(.95rem,2.2vw,1.2rem)}
+.video-play:hover .video-btn{background:#e0392f}
+.video-play .video-btn{top:66%}
+@media (max-width:600px){.video-poster img{width:16%}.video-play .video-btn{width:54px;height:38px;margin:-19px 0 0 -27px;border-radius:11px;top:67%}
+.video-play .video-btn::after{left:22px;top:11px;border-width:8px 0 8px 13px}.video-poster b{bottom:6%;font-size:.9rem}}
+@media (max-width:480px){.bar nav{display:flex;align-items:center;white-space:nowrap}.bar nav a{margin-left:10px;font-size:.88rem}.theme-btn{margin-left:8px;padding:0 9px}.brand{font-size:1.15rem}}
+.video-btn{position:absolute;left:50%;top:50%;width:72px;height:50px;margin:-25px 0 0 -36px;border-radius:14px;background:#c4302b;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+.video-btn::after{content:"";position:absolute;left:29px;top:15px;border-style:solid;border-width:10px 0 10px 17px;border-color:transparent transparent transparent #fff}
+.video iframe{display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:14px}
+.video-note{margin:8px 0 0;font-size:.85rem;color:var(--text-2)}
 .block{margin:16px 0 40px}.block-title{font-size:1.4rem;margin:0 0 14px}
 .steps{list-style:none;counter-reset:s;margin:0;padding:0;display:grid;gap:12px}
 .two{display:grid;gap:12px}
@@ -75,6 +81,7 @@ footer{border-top:1px solid var(--border);color:var(--text-2);font-size:.9rem;pa
 footer a{margin-right:14px}`;
 
 /**
+ * Skrip situs: tombol video (YouTube baru dimuat setelah diklik) dan tema.
  * Tema situs, halaman masuk, dan admin web memakai kunci yang sama ("siwak-theme"): bila belum pernah dipilih,
  * mengikuti setelan terang/gelap perangkat; bila sudah dipilih, pilihan itu berlaku di semua halaman.
  */
@@ -86,7 +93,10 @@ var b=document.getElementById("theme-btn");if(b){b.textContent=e==="dark"?"☀":
 var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute("content",e==="dark"?"#083B29":"#F7F6F3");}
 apply();if(mq&&mq.addEventListener)mq.addEventListener("change",apply);
 document.addEventListener("DOMContentLoaded",function(){apply();var b=document.getElementById("theme-btn");
-if(b)b.addEventListener("click",function(){var t=eff()==="dark"?"light":"dark";try{localStorage.setItem(K,t)}catch(e){}d.dataset.theme=t;apply();});});})();`;
+if(b)b.addEventListener("click",function(){var t=eff()==="dark"?"light":"dark";try{localStorage.setItem(K,t)}catch(e){}d.dataset.theme=t;apply();});
+document.querySelectorAll("[data-yt]").forEach(function(v){v.addEventListener("click",function(){var f=document.createElement("iframe");
+f.src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(v.getAttribute("data-yt"))+"?autoplay=1&rel=0";f.title="Video pengenalan SIWAK";
+f.allow="autoplay; encrypted-media; picture-in-picture; fullscreen";f.allowFullscreen=true;f.referrerPolicy="strict-origin-when-cross-origin";v.replaceWith(f);});});});})();`;
 
 function layout(title: string, body: string, publicUrl: string): string {
   return `<!doctype html>
@@ -103,28 +113,29 @@ function layout(title: string, body: string, publicUrl: string): string {
 Data cuaca dari OpenWeather.</div></footer></body></html>`;
 }
 
+/**
+ * Video promosi SIWAK di YouTube. Sampulnya buatan sendiri; YouTube (youtube-nocookie.com) baru dihubungi setelah
+ * pengunjung menekan tombol putar, sehingga membuka halaman depan tidak mengirim data ke pihak ketiga.
+ */
+const PROMO_VIDEO_ID = "aRPP6GMSflE";
+
 function home(config: Config): string {
-  const prayers = [
-    ["Subuh", "04:12"],
-    ["Terbit", "05:31"],
-    ["Dzuhur", "11:48"],
-    ["Ashar", "15:09"],
-    ["Maghrib", "17:58"],
-    ["Isya", "19:10"],
-  ];
-  const row = prayers.map(([n, t], i) => `<div class="tv-p${i === 3 ? " next" : ""}"><b>${n}</b><span>${t}</span></div>`).join("");
   return `<section class="hero">
 <div class="hero-text"><p class="eyebrow">Gratis · tanpa iklan · open source</p>
 <h1>Jam dan jadwal shalat untuk layar TV masjid</h1>
 <p>Pasang SIWAK di TV atau TV box Android. Layar menampilkan jam, jadwal shalat, hitung mundur adzan dan iqamah,
 pengumuman, slide info masjid, dan hadits pilihan. Pengurus mengaturnya dari HP.</p>
 <div class="btns"><a class="btn btn-primary" href="/api/public/latest-apk">Unduh aplikasi TV</a>
-<a class="btn" href="/admin/login">Masuk pengurus</a><a class="btn btn-ghost" href="/panduan">Baca panduan</a></div></div>
-<div class="tv" aria-hidden="true"><div class="tv-screen">
-<div class="tv-top"><div class="tv-slide"><small>INFO MASJID</small><strong>Kajian Ahad pagi</strong><span>Ba&#39;da Subuh · Serambi masjid</span></div>
-<div class="tv-clock"><small>Masjid Contoh</small><strong>15:02</strong><span>18 November 2026</span><em>Ashar 7 menit lagi</em></div></div>
-<div class="tv-row">${row}</div><div class="tv-ticker">Mohon luruskan dan rapatkan shaf · Matikan HP saat shalat</div></div></div>
+<a class="btn" href="/demo">Coba demo</a><a class="btn btn-ghost" href="/panduan">Baca panduan</a></div></div>
+<figure class="tv-demo"><div class="tv"><iframe src="/demo?embed=1" title="Demo layar TV SIWAK" loading="lazy" tabindex="-1"></iframe></div>
+<figcaption>Demo langsung: layar ini berjalan seperti di TV masjid. <a href="/demo">Buka demo interaktif →</a></figcaption></figure>
 </section>
+
+<section class="block video-block"><div class="video-text"><h2 class="block-title">Kenalan dengan SIWAK</h2>
+<p>Lihat bagaimana SIWAK dipasang di TV dan diatur dari HP, dari jadwal shalat sampai pengumuman.</p></div>
+<div class="video"><button type="button" class="video-play" data-yt="${PROMO_VIDEO_ID}" aria-label="Putar video pengenalan SIWAK">
+<span class="video-poster" aria-hidden="true"><img src="/admin/logo-full.png" alt="" width="132" height="170"><b>Video pengenalan SIWAK</b></span><span class="video-btn" aria-hidden="true"></span></button>
+<p class="video-note">Video diputar dari YouTube. <a href="https://www.youtube.com/watch?v=${PROMO_VIDEO_ID}" rel="noopener">Tonton di YouTube</a></p></div></section>
 
 <section class="block"><h2 class="block-title">Mulai dalam tiga langkah</h2>
 <ol class="steps">

@@ -2,7 +2,7 @@
 # Kebijakan Privasi SIWAK
 
 **Berlaku sejak:** 20 Oktober 2026\
-**Diperbarui:** 17 November 2026 (pengumuman segera, log aktivitas beserta alamat IP, cuaca mode mandiri, masa simpan data)\
+**Diperbarui:** 20 November 2026 (video pengenalan YouTube di halaman depan); sebelumnya 17 November 2026 (pengumuman segera, log aktivitas beserta alamat IP, cuaca mode mandiri, masa simpan data)\
 **Pengelola:** Alfian Yudisurya, pengembang SIWAK\
 **Kontak privasi:** alfian123yudi@gmail.com
 
@@ -69,9 +69,10 @@ dengan akun Google untuk pertama kali.
 | AlAdhan | Perhitungan jadwal shalat | Koordinat masjid, alamat IP TV |
 | OpenWeather | Data cuaca | Koordinat masjid (dari server SIWAK; dari TV hanya pada versi 1.x atau mode mandiri dengan kunci milik pengurus) |
 | GitHub | Pemeriksaan pembaruan aplikasi | Alamat IP TV |
+| YouTube (Google) | Video pengenalan di halaman depan, hanya bila pengunjung menekan tombol putar | Alamat IP dan data perangkat pengunjung, sesuai kebijakan privasi Google |
 | Penyedia server (VPS) | Tempat server SIWAK berjalan | Seluruh data layanan, tersimpan di Indonesia (Jawa Barat) |
 
-Data layanan disimpan di Indonesia. Google, AlAdhan, OpenWeather, dan GitHub dapat memproses data
+Data layanan disimpan di Indonesia. Google (termasuk YouTube), AlAdhan, OpenWeather, dan GitHub dapat memproses data
 yang mereka terima (koordinat masjid, alamat IP, data login) di server di luar Indonesia, sesuai
 kebijakan privasi masing-masing.
 

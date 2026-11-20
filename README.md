@@ -11,6 +11,7 @@ PERLU DICEK, OFFLINE), serta membuka atau memulai ulang SIWAK dari jauh. TV teta
 shalat sendiri dan tetap berjalan saat internet putus.
 
 Layanan resmi: <https://siwak.alfianys.id> ·
+**[Coba demo](https://siwak.alfianys.id/demo)** ·
 **[Buku panduan (PDF)](https://siwak.alfianys.id/panduan.pdf)** ·
 [Panduan online](https://siwak.alfianys.id/panduan)
 
@@ -18,7 +19,8 @@ Layanan resmi: <https://siwak.alfianys.id> ·
 
 ## Isi
 
-- **Situs publik:** halaman depan, buku panduan (`site/panduan.md`, gambar di `site/panduan/`, versi PDF
+- **Situs publik:** halaman depan (dengan demo layar TV dan video pengenalan), demo interaktif di `/demo`
+  (`admin-web/demo.html`, data contoh dari `/api/public/demo`), buku panduan (`site/panduan.md`, gambar di `site/panduan/`, versi PDF
   `site/panduan.pdf`), Kebijakan Privasi, dan Syarat Penggunaan.
 - **Website pengurus** (`admin-web/`, disajikan di `/admin`): Beranda, Konten (pengumuman, teks berjalan,
   slide, hadits), Pengaturan (jadwal, suara, tampilan, riwayat perubahan), dan Pratinjau. Super admin

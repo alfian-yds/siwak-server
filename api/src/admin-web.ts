@@ -50,27 +50,38 @@ export async function adminWebRoutes(app: FastifyInstance, dir: string = default
     prefix: "/admin/",
     wildcard: false, // daftarkan rute per berkas saat mulai, sisanya ditangani fallback SPA di bawah
     index: false,
-    allowedPath: (path) => path !== "/index.html",
+    allowedPath: (path) => path !== "/index.html" && path !== "/demo.html",
     setHeaders(reply, path) {
       // Nama berkas di assets/ memuat hash isi, jadi aman disimpan lama di cache browser.
       reply.header("Cache-Control", /[\\/]assets[\\/]/.test(path) ? "public, max-age=31536000, immutable" : "public, max-age=3600");
     },
   });
 
+  // Demo layar TV publik (tanpa login). Boleh disematkan di halaman depan situs ini sendiri.
+  const demoFile = join(dir, "demo.html");
+  app.get("/demo", async (_req, reply) => {
+    if (!existsSync(demoFile)) return reply.code(404).type("text/plain; charset=utf-8").send("Demo belum tersedia.");
+    const csp = String(reply.getHeader("content-security-policy") ?? "").replace("frame-ancestors 'none'", "frame-ancestors 'self'");
+    return reply
+      .type("text/html; charset=utf-8")
+      .header("Content-Security-Policy", csp)
+      .header("X-Frame-Options", "SAMEORIGIN")
+      .header("Cache-Control", "no-cache")
+      .send(readFileSync(demoFile, "utf8"));
+  });
+
   const spa = async (_req: FastifyRequest, reply: FastifyReply) =>
     reply.type("text/html; charset=utf-8").header("Cache-Control", "no-store").send(currentIndex());
 
   app.get("/admin", { preHandler: app.requirePageAuth }, spa);
-  app.get<{ Params: { "*": string } }>("/admin/*", { preHandler: app.requirePageAuth }, async (req, reply) => {
-    // Aset yang tidak ada harus 404, bukan halaman HTML (agar galat build terlihat jelas).
-    if (req.params["*"].startsWith("assets/")) {
-      // Aset dari build yang lebih baru dari proses ini (belum terdaftar saat mulai) tetap disajikan.
-      const rel = req.params["*"];
-      if (/^assets\/[\w.-]+$/.test(rel) && existsSync(join(dir, rel))) {
-        return reply.header("Cache-Control", "public, max-age=31536000, immutable").sendFile(rel);
-      }
-      return reply.code(404).send({ error: { code: "not_found", message: "Berkas tidak ditemukan." } });
+  // Aset dari build yang lebih baru dari proses ini (belum terdaftar saat mulai) tetap disajikan, tanpa login
+  // (isinya kode publik, juga dipakai halaman demo). Aset yang tidak ada harus 404, bukan halaman HTML.
+  app.get<{ Params: { "*": string } }>("/admin/assets/*", async (req, reply) => {
+    const rel = `assets/${req.params["*"]}`;
+    if (/^assets\/[\w.-]+$/.test(rel) && existsSync(join(dir, rel))) {
+      return reply.header("Cache-Control", "public, max-age=31536000, immutable").sendFile(rel);
     }
-    return spa(req, reply);
+    return reply.code(404).send({ error: { code: "not_found", message: "Berkas tidak ditemukan." } });
   });
+  app.get("/admin/*", { preHandler: app.requirePageAuth }, spa);
 }

@@ -30,6 +30,7 @@ describe.skipIf(!hasDb)("penyajian admin web (SPA)", () => {
     writeFileSync(join(dir, "index.html"), "<!doctype html><title>SIWAK Admin</title><div id=root></div>");
     writeFileSync(join(dir, "assets", "index-abc123.js"), "console.log(1)");
     writeFileSync(join(dir, "favicon.svg"), "<svg/>");
+    writeFileSync(join(dir, "demo.html"), "<!doctype html><title>Demo layar TV</title><div id=root></div>");
 
     const created = createDb(process.env.TEST_DATABASE_URL!);
     db = created.db;
@@ -75,6 +76,26 @@ describe.skipIf(!hasDb)("penyajian admin web (SPA)", () => {
   it("aset yang tidak ada menjawab 404, bukan HTML", async () => {
     const res = await app.inject({ method: "GET", url: "/admin/assets/hilang.js", cookies: { siwak_sid: sid } });
     expect(res.statusCode).toBe(404);
+  });
+
+  it("demo layar TV terbuka tanpa login dan hanya boleh disematkan oleh situs sendiri", async () => {
+    const res = await app.inject({ method: "GET", url: "/demo" });
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toContain("Demo layar TV");
+    expect(res.headers["content-security-policy"]).toContain("frame-ancestors 'self'");
+    expect(res.headers["x-frame-options"]).toBe("SAMEORIGIN");
+    // Halaman admin tetap tidak boleh disematkan.
+    const admin = await app.inject({ method: "GET", url: "/admin", cookies: { siwak_sid: sid } });
+    expect(admin.headers["content-security-policy"]).toContain("frame-ancestors 'none'");
+    // demo.html tidak disajikan ganda di /admin/.
+    expect((await app.inject({ method: "GET", url: "/admin/demo.html" })).body).not.toContain("Demo layar TV");
+  });
+
+  it("aset build baru (belum terdaftar saat server mulai) tetap terbuka tanpa login", async () => {
+    writeFileSync(join(dir, "assets", "demo-late123.js"), "console.log(2)");
+    const res = await app.inject({ method: "GET", url: "/admin/assets/demo-late123.js" });
+    expect(res.statusCode).toBe(200);
+    expect(res.headers["cache-control"]).toContain("immutable");
   });
 
   it("halaman masuk tetap halaman server", async () => {

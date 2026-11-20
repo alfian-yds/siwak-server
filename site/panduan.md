@@ -46,6 +46,9 @@ SIWAK bisa dipakai dengan dua cara:
 Jadwal shalat selalu dihitung di TV dan disimpan untuk 7 hari ke depan, sehingga layar tetap berjalan
 walaupun internet putus.
 
+Ingin melihat tampilannya sebelum memasang? Buka **siwak.alfianys.id/demo** di HP atau komputer untuk
+mencoba layar TV SIWAK dengan contoh isi, termasuk layar adzan, iqamah, dan pengumuman.
+
 ## 2. Yang dibutuhkan
 
 - TV Android atau TV box Android (Android 5.0 ke atas) beserta remote.

@@ -10,7 +10,13 @@ export default defineConfig({
   plugins: [react()],
   // emptyOutDir: false — berkas aset lama (nama ber-hash) tetap ada selama deploy, sehingga tab yang
   // masih terbuka atau server lama yang belum dimuat ulang tidak menampilkan halaman kosong.
-  build: { outDir: "dist", emptyOutDir: false, sourcemap: false },
+  build: {
+    outDir: "dist",
+    emptyOutDir: false,
+    sourcemap: false,
+    // Dua halaman: admin web (index.html) dan demo layar TV publik (demo.html, disajikan di /demo).
+    rollupOptions: { input: { main: "index.html", demo: "demo.html" } },
+  },
   server: {
     port: 5173,
     proxy: { "/api": api, "/auth": api, "/admin/login": api },

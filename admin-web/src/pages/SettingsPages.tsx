@@ -492,7 +492,7 @@ export function SoundPage() {
 // ---- Tampilan -----------------------------------------------------------------------
 // Urutan sama dengan aplikasi TV: Logo & gambar latar, Tema warna, Bahasa, Jam, Mode malam, Cuaca.
 
-const THEMES: { id: string; name: string; accent: string }[] = [
+export const THEMES: { id: string; name: string; accent: string }[] = [
   { id: "classic_mosque", name: "Classic Mosque", accent: "#B08D57" },
   { id: "midnight_blue", name: "Midnight Blue", accent: "#F0F0F0" },
   { id: "desert_sand", name: "Desert Sand", accent: "#E39A5D" },

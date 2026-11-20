@@ -9,7 +9,7 @@ import { DAYS, HARI_BESAR, categoryLabel, rupiah } from "../labels";
 import { useMosque } from "../mosque";
 import { fmtMin, hijriText, scheduleFor, wallClock } from "../prayer";
 
-interface BundleContent {
+export interface BundleContent {
   id: string;
   type: string;
   category: string | null;
@@ -19,7 +19,7 @@ interface BundleContent {
   body: Record<string, unknown> | null;
   mediaId: string | null;
 }
-interface Weather {
+export interface Weather {
   temperatureC: number;
   feelsLikeC: number;
   humidity: number;
@@ -27,7 +27,7 @@ interface Weather {
   iconCode: string;
   description: string;
 }
-interface Bundle {
+export interface Bundle {
   mosque: {
     name: string;
     regionLabel: string | null;
@@ -269,17 +269,59 @@ export function PreviewPage() {
     queryKey: ["preview", mosque.id],
     queryFn: () => api<Bundle>("GET", `/api/admin/mosques/${mosque.id}/preview`),
   });
+  if (q.isPending) return <Loading />;
+  if (q.isError) return <ErrorAlert error={q.error} />;
+  return (
+    <div className="stack">
+      <div className="page-head" style={{ marginBottom: 0 }}>
+        <h2>Pratinjau layar TV</h2>
+        <Link className="btn btn-small" to={`/m/${mosque.id}/konten`}>
+          Atur slide
+        </Link>
+      </div>
+      <p className="muted small" style={{ margin: 0 }}>
+        Gambaran layar TV dengan isi, warna, dan gambar latar yang sama. Jam shalat di sini perkiraan (bisa beda ±1 menit dari TV). Slide diputar lebih cepat, 8
+        detik per slide.
+      </p>
+      <TvPreview bundle={q.data} mode="admin" />
+    </div>
+  );
+}
+
+/** admin: pratinjau pengurus; demo: halaman demo publik (tanpa catatan pengurus); embed: hanya layar TV. */
+export type TvPreviewMode = "admin" | "demo" | "embed";
+
+/** Urutan layar untuk tur otomatis (demo di halaman depan). */
+const TOUR: { screen: Screen; seconds: number }[] = [
+  { screen: "UTAMA", seconds: 36 },
+  { screen: "PENUH", seconds: 10 },
+  { screen: "UTAMA", seconds: 16 },
+  { screen: "ADZAN", seconds: 7 },
+  { screen: "IQAMAH", seconds: 7 },
+  { screen: "SHALAT", seconds: 7 },
+];
+
+export function TvPreview({ bundle: b, mode = "admin", tour = false }: { bundle: Bundle; mode?: TvPreviewMode; tour?: boolean }) {
+  const admin = mode === "admin";
   const [period, setPeriod] = useState<Period | "AUTO">("AUTO");
   const [layoutView, setLayoutView] = useState<"AUTO" | "BAR_BAWAH" | "GALERI">("AUTO");
   const [screen, setScreen] = useState<Screen>("UTAMA");
   const [index, setIndex] = useState(0);
   const [auto, setAuto] = useState(true);
   const [now, setNow] = useState(() => new Date());
+  const [tourStep, setTourStep] = useState(0);
   useEffect(() => {
     const t = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(t);
   }, []);
-  const playlist = useMemo(() => (q.data ? buildPlaylist(q.data, new Date()) : []), [q.data]);
+  useEffect(() => {
+    if (!tour) return;
+    const step = TOUR[tourStep % TOUR.length]!;
+    setScreen(step.screen);
+    const t = setTimeout(() => setTourStep((n) => n + 1), step.seconds * 1000);
+    return () => clearTimeout(t);
+  }, [tour, tourStep]);
+  const playlist = useMemo(() => buildPlaylist(b, new Date()), [b]);
   const item = playlist.length ? playlist[index % playlist.length] : null;
   const { ref, clipped } = useClipped(`${item?.c.id}-${screen}`);
 
@@ -289,9 +331,6 @@ export function PreviewPage() {
     return () => clearTimeout(t);
   }, [auto, item, playlist.length]);
 
-  if (q.isPending) return <Loading />;
-  if (q.isError) return <ErrorAlert error={q.error} />;
-  const b = q.data;
   const s = b.settings;
   const silhouette = s.display.illustration.silhouette;
   const tz = b.mosque.timezone || "Asia/Jakarta";
@@ -388,18 +427,9 @@ export function PreviewPage() {
   );
 
   return (
-    <div className="stack">
-      <div className="page-head" style={{ marginBottom: 0 }}>
-        <h2>Pratinjau layar TV</h2>
-        <Link className="btn btn-small" to={`/m/${mosque.id}/konten`}>
-          Atur slide
-        </Link>
-      </div>
-      <p className="muted small" style={{ margin: 0 }}>
-        Gambaran layar TV dengan isi, warna, dan gambar latar yang sama. Jam shalat di sini perkiraan (bisa beda ±1 menit dari TV). Slide diputar lebih cepat, 8
-        detik per slide.
-      </p>
-
+    <div className={mode === "embed" ? "tv-embed" : "stack"}>
+      {mode !== "embed" && (
+        <>
       <div className="segmented" role="group" aria-label="Layar">
         {(
           [
@@ -432,7 +462,7 @@ export function PreviewPage() {
           ))}
         </div>
       )}
-      {screen === "UTAMA" && layout !== tvLayout && (
+      {admin && screen === "UTAMA" && layout !== tvLayout && (
         <div className="feature-note">
           <span>Ini hanya contoh. TV masih tampil {tvLayout === "GALERI" ? "dengan slide di samping jam" : "jam & jadwal saja"}; ubah di Konten → Slide.</span>
         </div>
@@ -450,6 +480,9 @@ export function PreviewPage() {
             </label>
           ))}
         </div>
+      )}
+
+        </>
       )}
 
       <div className="tv-frame" ref={ref} style={vars}>
@@ -599,12 +632,12 @@ export function PreviewPage() {
         )}
       </div>
 
-      {clipped.filter((c) => c !== "Teks berjalan").length > 0 && (
+      {admin && clipped.filter((c) => c !== "Teks berjalan").length > 0 && (
         <div className="alert alert-warn small">
           Teks terpotong di TV: {clipped.filter((c) => c !== "Teks berjalan").join(", ")}. Persingkat teksnya agar tampil utuh.
         </div>
       )}
-      {playlist.length > 0 && ((screen === "UTAMA" && layout === "GALERI") || screen === "PENUH") && (
+      {mode !== "embed" && playlist.length > 0 && ((screen === "UTAMA" && layout === "GALERI") || screen === "PENUH") && (
         <div className="actions" style={{ marginTop: 0 }}>
           <button className="btn btn-small" onClick={() => setIndex((i) => (i - 1 + playlist.length) % playlist.length)}>
             ← Sebelumnya
@@ -617,11 +650,12 @@ export function PreviewPage() {
           </button>
           <span className="muted small" style={{ alignSelf: "center" }}>
             Slide {(index % playlist.length) + 1} dari {playlist.length}
-            {item?.auto ? " · hadits otomatis" : ""} · hari ini {DAYS[(new Date().getDay() + 6) % 7]}
+            {item?.auto ? " · hadits otomatis" : ""}
+            {admin ? ` · hari ini ${DAYS[(new Date().getDay() + 6) % 7]}` : ""}
           </span>
         </div>
       )}
-      {!contentOn && (
+      {admin && !contentOn && (
         <div className="feature-note">
           <span>Slide & hadits sedang dimatikan, jadi TV hanya menampilkan jam dan jadwal shalat. Nyalakan di Konten → Slide.</span>
         </div>

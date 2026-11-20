@@ -1686,3 +1686,33 @@ button.show-item:hover {
   overflow-wrap: anywhere;
   min-width: 0;
 }
+
+/* ---- Demo layar TV publik (/demo) ---------------------------------------------------------------- */
+.demo-page { max-width: 1120px; margin: 0 auto; padding: 0 16px 40px; }
+.demo-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 64px; margin-bottom: 8px; }
+.demo-brand { display: flex; align-items: center; gap: 10px; font-family: Marcellus, Georgia, serif; font-size: 1.35rem; letter-spacing: 0.08em; color: var(--text); text-decoration: none; }
+.demo-brand img { background: #fff; border-radius: 9px; padding: 3px; border: 1px solid var(--border); }
+.demo-top nav { display: flex; align-items: center; gap: 16px; }
+.demo-top nav a { color: var(--text); font-weight: 600; text-decoration: none; font-size: 0.95rem; }
+.demo-theme-btn { background: transparent; border: 1px solid var(--border); color: var(--text); border-radius: 999px; min-height: 36px; min-width: 36px; padding: 0 10px; cursor: pointer; font: inherit; }
+.demo-title { font-size: clamp(1.5rem, 3.6vw, 2.1rem); line-height: 1.2; margin: 0 0 8px; }
+.demo-tools { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.demo-select { display: grid; gap: 4px; font-size: 0.85rem; color: var(--text-2); font-weight: 600; }
+.demo-select select { min-height: 40px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); padding: 0 10px; font: inherit; font-size: 0.95rem; }
+.demo-cta { display: grid; gap: 12px; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 20px; margin-top: 8px; }
+.demo-cta h2 { margin: 0 0 4px; font-size: 1.2rem; }
+.demo-cta p { margin: 0; }
+.demo-cta .actions { margin: 0; }
+@media (min-width: 760px) { .demo-cta { grid-template-columns: 1fr auto; } }
+.demo-loading { aspect-ratio: 16 / 9; border-radius: 12px; background: #0b0f0d; margin-top: 80px; }
+.demo-error { text-align: center; padding: 40px 16px; color: var(--text-2); }
+@media (max-width: 560px) { .demo-top nav a[href="/panduan"] { display: none; } }
+
+/* Mode sematan (?embed=1): hanya layar TV, memenuhi iframe. */
+.tv-embed { position: fixed; inset: 0; background: #000; }
+.tv-embed .tv-frame { width: 100%; height: 100%; aspect-ratio: auto; border-radius: 0; }
+
+/* Tombol "Layar penuh": layar TV memenuhi monitor seperti di TV sungguhan. */
+.tv-frame:fullscreen { width: 100vw; height: 100vh; aspect-ratio: auto; border-radius: 0; }
+/* Layar TV di halaman demo selalu muat satu layar (tinggi maks. ±72% layar). */
+.demo-page .tv-frame { max-width: min(100%, calc(72vh * 16 / 9)); margin: 0 auto; }
